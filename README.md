@@ -1,6 +1,6 @@
 # PlantBiophysics article website
 
-This is the repository for the Pluto notebooks related to the scientific paper about [PlantBiophysics.jl](https://github.com/VEZY/PlantBiophysics.jl). This repo is an attempt to convert Pluto based notebooks to more generic jupyter notebooks and then using Quarto.
+This is the repository for the Pluto notebooks related to the scientific paper about [PlantBiophysics.jl](https://github.com/VEZY/PlantBiophysics.jl). This repo is an attempt to convert Pluto based notebooks to more generic jupyter notebooks and then using Quarto. Orignial repo with Pluto notebooks can be found [here](https://github.com/VEZY/PlantBiophysics-paper/)
 
 This repository automatically makes a website from these notebooks using Github actions and [Quarto website creation](https://quarto.org/docs/websites/).
 

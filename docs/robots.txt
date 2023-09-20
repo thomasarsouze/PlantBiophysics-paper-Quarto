@@ -1,1 +1,0 @@
-Sitemap: https://thomasarsouze.github.io/PlantBiophysics-paper-Quarto/sitemap.xml

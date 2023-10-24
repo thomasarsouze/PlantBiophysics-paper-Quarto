@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PlantBiophysics-paper for Quarto - PlantBiophysics.jl benchmark</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">PlantBiophysics-paper for Quarto</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../notebooks/performance/Fig5_PlantBiophysics_performance.html">Performance</a></li><li class="breadcrumb-item"><a href="../../notebooks/performance/Fig5_PlantBiophysics_performance.html">Benchmark</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto"><div class="quarto-sidebar-header"><section id="support-for-plantbiophysics-article" class="level3 sidebar-header-item">
+<h3 data-anchor-id="support-for-plantbiophysics-article">Support for PlantBiophysics article</h3>
+</section><div class="sidebar-header-item">
+<p><strong><em>Code for figure and tables reproduction</em></strong></p>
+</div><div class="sidebar-header-item">
+<p>by R. Vezy &amp; S. Treillou</p>
+</div></div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+        <div class="sidebar-tools-collapse">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-collapse-item" href="https://github.com/thomasarsouze/PlantBiophysics-paper-Quarto">
+            Source Code
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-collapse-item" href="https://github.com/thomasarsouze/PlantBiophysics-paper-Quarto/issues">
+            Report a Bug
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../installation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">First-time setup: Install Julia &amp; Pluto</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/basic_syntax.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started with Julia - live</span></a>
+  </div>
+</li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Evaluation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/evaluation/Fig3/Fig3_PlantBiophysics_global_evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Global evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/evaluation/Fig4/Fig4_PlantBiophysics_TaylorDiag.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Taylor diagram</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/evaluation/Fig6/Fig6_PlantBiophysics_day_evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic evaluation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Performance</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notebooks/performance/Fig5_PlantBiophysics_performance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Benchmark</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Upscaling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#importing-the-dependencies" id="toc-importing-the-dependencies" class="nav-link active" data-scroll-target="#importing-the-dependencies">Importing the dependencies:</a></li>
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a>
+  <ul class="collapse">
+  <li><a href="#benchmark-parameters" id="toc-benchmark-parameters" class="nav-link" data-scroll-target="#benchmark-parameters">Benchmark parameters</a></li>
+  <li><a href="#random-input-simulation-dataset" id="toc-random-input-simulation-dataset" class="nav-link" data-scroll-target="#random-input-simulation-dataset">Random input simulation dataset</a></li>
+  </ul></li>
+  <li><a href="#benchmarking" id="toc-benchmarking" class="nav-link" data-scroll-target="#benchmarking">Benchmarking</a></li>
+  <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison">Comparison</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/thomasarsouze/PlantBiophysics-paper-Quarto/blob/main/notebooks/performance/Fig5_PlantBiophysics_performance.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/thomasarsouze/PlantBiophysics-paper-Quarto/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">PlantBiophysics.jl benchmark</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">activate</span>(<span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  Activating project at `~/Documents/Codes_divers/PlantBiophysics-paper-Quarto/notebooks/performance`</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">### A Pluto.jl notebook ###</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># v0.19.23</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Markdown</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">InteractiveUtils</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The main objective of this notebook is to compare the computational times of <code>PlantBiophysics.jl</code> against the <a href="https://github.com/RemkoDuursma/plantecophys">plantecophys</a> R package and the <a href="https://github.com/cropbox/LeafGasExchange.jl">LeafGasExchange.jl</a> Julia package from the <a href="https://github.com/cropbox/Cropbox.jl">Cropbox.jl</a> framework. The comparison follows three steps: - create an N-large basis of random conditions. - benchmark the computational time of the three packages via similar functions (<em>i.e.</em> photosynthesis-stomatal conductance-energy balance coupled model for C3 leaves): <code>energy_balance</code>, <code>photosynEB</code> and <code>simulate</code> with <code>ModelC3MD</code>. - compare the results with plots and statistics.</p>
+<p>This notebook does not perform the benchmark by itself for the obvious reason that it takes forever to run, and because there is an overhead cause by Pluto (benchmark and reactive are not a good mix). Instead, it shows the outputs of <a href="https://github.com/VEZY/PlantBiophysics-paper/blob/main/tutorials/Fig5_PlantBiophysics_performance_noPluto.jl">a script from this repository</a> that implements the code shown here. If you want to perform the benchmark by yourself, you can run this script from the command line. The versions used for the above dependencies are available in the <a href="https://github.com/VEZY/PlantBiophysics-paper/blob/main/tutorials/Project.toml">Project.toml</a> of the repository.</p>
+<section id="importing-the-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="importing-the-dependencies">Importing the dependencies:</h2>
+<section id="note" class="level6">
+<h6 class="anchored" data-anchor-id="note">Note</h6>
+<p>Make sure to have R installed on your computer first.</p>
+<p>Loading the Julia packages:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">CairoMakie</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">BenchmarkTools</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">PlantBiophysics</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">Cropbox</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">LeafGasExchange</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">RCall</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">Statistics</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">DataFrames</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">CSV</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">Random</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">PlantBiophysics</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="im">using</span> <span class="bu">Downloads</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="parameters" class="level2">
+<h2 class="anchored" data-anchor-id="parameters">Parameters</h2>
+<section id="benchmark-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="benchmark-parameters">Benchmark parameters</h3>
+<p>You’ll find below the main parameters of the benchmark. In a few words, each package runs a simulation for <code>N</code> different time-steps <code>microbenchmark_steps</code> times repeated <code>microbenchmark_evals</code> times. We make <code>N</code> different simulations because the simulation duration can vary depending on the inputs due to iterative computations in the code, <em>i.e.</em> different initial conditions can make the algorithms converge more or less rapidly.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">1</span>) <span class="co"># Set random seed</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    microbenchmark_steps <span class="op">=</span> <span class="fl">100</span> <span class="co"># Number of times the microbenchmark is run</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    microbenchmark_evals <span class="op">=</span> <span class="fl">1</span> <span class="co"># N. times each sample is run to be sure of the output</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="fl">100</span> <span class="co"># Number of timesteps simulated for each microbenchmark step</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>100</code></pre>
+</div>
+</div>
+</section>
+<section id="random-input-simulation-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="random-input-simulation-dataset">Random input simulation dataset</h3>
+<p>We create possible ranges for input parameters. These ranges where chosen so all of the three packages don’t return errors during computation (<code>plantecophys</code> has issues with low temperatures).</p>
+<ul>
+<li>Ta: air temperature (<span class="math inline">\(°C\)</span>)</li>
+<li>Wind: wind speed (<span class="math inline">\(m.s^{-1}\)</span>)</li>
+<li>P: ambient pressure (<span class="math inline">\(kPa\)</span>)</li>
+<li>Rh: relative humidity (between 0 and 1)</li>
+<li>Ca: air CO₂ concentration (<span class="math inline">\(ppm\)</span>)</li>
+<li>Jmax: potential rate of electron transport (<span class="math inline">\(\mu mol_{CO2}.m^{-2}.s^{-1}\)</span>)</li>
+<li>Vmax: maximum rate of Rubisco activity (<span class="math inline">\(\mu mol_{CO2}.m^{-2}.s^{-1}\)</span>)</li>
+<li>Rd: mitochondrial respiration in the light at reference temperature (<span class="math inline">\(\mu mol_{CO2}.m^{-2}.s^{-1}\)</span>)</li>
+<li>TPU: triose phosphate utilization-limited photosynthesis rate (<span class="math inline">\(\mu mol_{CO2}.m^{-2}.s^{-1}\)</span>)</li>
+<li>Rs: short-wave net radiation (<span class="math inline">\(W.m^{-1}\)</span>)</li>
+<li>skyF: Sun-visible fraction of the leaf (between 0 and 1)</li>
+<li>d: characteristic length (<span class="math inline">\(m\)</span>)</li>
+<li>g0: residual stomatal conductance (<span class="math inline">\(mol_{CO2}.m^{-2}.s^{-1}\)</span>)</li>
+<li>g1: slope of the stomatal conductance relationship.</li>
+</ul>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the ranges of input parameters</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    length_range <span class="op">=</span> <span class="fl">10000</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    Rs <span class="op">=</span> <span class="fu">range</span>(<span class="fl">10</span>, <span class="fl">500</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    Ta <span class="op">=</span> <span class="fu">range</span>(<span class="fl">18</span>, <span class="fl">40</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    Wind <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.5</span>, <span class="fl">20</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> <span class="fu">range</span>(<span class="fl">90</span>, <span class="fl">101</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    Rh <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.1</span>, <span class="fl">0.98</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    Ca <span class="op">=</span> <span class="fu">range</span>(<span class="fl">360</span>, <span class="fl">900</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    skyF <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.001</span>, <span class="fl">0.5</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    Jmax <span class="op">=</span> <span class="fu">range</span>(<span class="fl">200.0</span>, <span class="fl">300.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    Vmax <span class="op">=</span> <span class="fu">range</span>(<span class="fl">150.0</span>, <span class="fl">250.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    Rd <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.3</span>, <span class="fl">2.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    TPU <span class="op">=</span> <span class="fu">range</span>(<span class="fl">5.0</span>, <span class="fl">20.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    g0 <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.001</span>, <span class="fl">2.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    g1 <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0.5</span>, <span class="fl">15.0</span>, length<span class="op">=</span>length_range)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    vars <span class="op">=</span> <span class="fu">hcat</span>([Ta, Wind, P, Rh, Ca, Jmax, Vmax, Rd, Rs, skyF, d, TPU, g0, g1])</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="cn">nothing</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then sample <code>N</code> conditions from the given ranges:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    set <span class="op">=</span> [<span class="fu">rand</span>.(vars) for i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    set <span class="op">=</span> <span class="fu">reshape</span>(<span class="fu">vcat</span>(set<span class="op">...</span>), (<span class="fu">length</span>(set[<span class="fl">1</span>]), <span class="fu">length</span>(set)))<span class="ch">'</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> [</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"T"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Wind"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"P"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Rh"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ca"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"JMaxRef"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"VcMaxRef"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RdRef"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Rs"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sky_fraction"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"d"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TPURef"</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"g0"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"g1"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    set <span class="op">=</span> <span class="fu">DataFrame</span>(set, name)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    @. set[!, <span class="op">:</span>vpd] <span class="op">=</span> <span class="fu">e_sat</span>(set.T) <span class="op">-</span> <span class="fu">vapor_pressure</span>(set.T, set.Rh)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    @. set[!, <span class="op">:</span>PPFD] <span class="op">=</span> set.Rs <span class="op">*</span> <span class="fl">0.48</span> <span class="op">*</span> <span class="fl">4.57</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    set</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="data-frame"><p>100 rows × 16 columns (omitted printing of 7 columns)</p>
+<table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">T</th>
+<th data-quarto-table-cell-role="th">Wind</th>
+<th data-quarto-table-cell-role="th">P</th>
+<th data-quarto-table-cell-role="th">Rh</th>
+<th data-quarto-table-cell-role="th">Ca</th>
+<th data-quarto-table-cell-role="th">JMaxRef</th>
+<th data-quarto-table-cell-role="th">VcMaxRef</th>
+<th data-quarto-table-cell-role="th">RdRef</th>
+<th data-quarto-table-cell-role="th">Rs</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>19.6128</td>
+<td>7.31008</td>
+<td>97.6876</td>
+<td>0.652871</td>
+<td>854.095</td>
+<td>219.282</td>
+<td>227.018</td>
+<td>1.62698</td>
+<td>338.431</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>30.4752</td>
+<td>12.5113</td>
+<td>92.1529</td>
+<td>0.110913</td>
+<td>528.443</td>
+<td>211.471</td>
+<td>204.605</td>
+<td>1.35955</td>
+<td>142.705</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>37.0693</td>
+<td>14.7462</td>
+<td>94.7316</td>
+<td>0.466029</td>
+<td>793.393</td>
+<td>266.147</td>
+<td>184.753</td>
+<td>1.6229</td>
+<td>106.442</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>36.1958</td>
+<td>8.21692</td>
+<td>94.8086</td>
+<td>0.20033</td>
+<td>392.997</td>
+<td>296.88</td>
+<td>177.223</td>
+<td>1.36686</td>
+<td>346.517</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>32.6337</td>
+<td>13.8159</td>
+<td>99.9659</td>
+<td>0.806623</td>
+<td>781.134</td>
+<td>263.616</td>
+<td>161.891</td>
+<td>0.987039</td>
+<td>306.333</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>39.8042</td>
+<td>16.0392</td>
+<td>90.4884</td>
+<td>0.45714</td>
+<td>750.567</td>
+<td>283.968</td>
+<td>157.291</td>
+<td>1.71964</td>
+<td>491.522</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>18.0286</td>
+<td>15.1148</td>
+<td>93.7844</td>
+<td>0.863036</td>
+<td>493.015</td>
+<td>242.564</td>
+<td>199.045</td>
+<td>0.894889</td>
+<td>453.445</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>36.3454</td>
+<td>19.6451</td>
+<td>91.8372</td>
+<td>0.733399</td>
+<td>496.796</td>
+<td>205.461</td>
+<td>186.324</td>
+<td>1.36669</td>
+<td>436.637</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>31.2409</td>
+<td>9.08476</td>
+<td>97.363</td>
+<td>0.266161</td>
+<td>436.04</td>
+<td>240.004</td>
+<td>182.193</td>
+<td>0.820252</td>
+<td>423.356</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>33.1925</td>
+<td>7.73132</td>
+<td>100.956</td>
+<td>0.132739</td>
+<td>798.2</td>
+<td>211.701</td>
+<td>232.558</td>
+<td>1.32384</td>
+<td>96.2486</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>28.7393</td>
+<td>14.0909</td>
+<td>97.7217</td>
+<td>0.24231</td>
+<td>372.637</td>
+<td>263.636</td>
+<td>201.805</td>
+<td>0.971057</td>
+<td>400.226</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">12</td>
+<td>27.4323</td>
+<td>7.70597</td>
+<td>92.0979</td>
+<td>0.376172</td>
+<td>864.032</td>
+<td>274.717</td>
+<td>180.683</td>
+<td>1.80363</td>
+<td>459.473</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13</td>
+<td>23.626</td>
+<td>12.521</td>
+<td>96.6172</td>
+<td>0.248559</td>
+<td>400.234</td>
+<td>210.501</td>
+<td>209.596</td>
+<td>1.68615</td>
+<td>282.761</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">14</td>
+<td>39.5578</td>
+<td>17.7885</td>
+<td>95.0044</td>
+<td>0.227525</td>
+<td>691.269</td>
+<td>256.276</td>
+<td>178.803</td>
+<td>1.75025</td>
+<td>494.462</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">15</td>
+<td>27.6612</td>
+<td>5.43984</td>
+<td>93.9747</td>
+<td>0.418416</td>
+<td>826.769</td>
+<td>268.607</td>
+<td>247.65</td>
+<td>1.51987</td>
+<td>348.134</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">16</td>
+<td>38.8031</td>
+<td>10.8867</td>
+<td>99.5402</td>
+<td>0.903608</td>
+<td>582.394</td>
+<td>246.045</td>
+<td>200.665</td>
+<td>1.88575</td>
+<td>297.316</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">17</td>
+<td>26.6843</td>
+<td>9.84143</td>
+<td>97.2519</td>
+<td>0.680066</td>
+<td>532.277</td>
+<td>206.881</td>
+<td>210.466</td>
+<td>1.13461</td>
+<td>243.802</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18</td>
+<td>29.8174</td>
+<td>14.6701</td>
+<td>100.152</td>
+<td>0.85714</td>
+<td>767.093</td>
+<td>274.637</td>
+<td>155.971</td>
+<td>1.45017</td>
+<td>424.777</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19</td>
+<td>19.9098</td>
+<td>4.35749</td>
+<td>91.4455</td>
+<td>0.644862</td>
+<td>645.635</td>
+<td>229.783</td>
+<td>155.911</td>
+<td>0.349305</td>
+<td>210.626</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">20</td>
+<td>28.5743</td>
+<td>18.0167</td>
+<td>94.2816</td>
+<td>0.772739</td>
+<td>372.043</td>
+<td>212.111</td>
+<td>241.699</td>
+<td>0.50164</td>
+<td>290.259</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21</td>
+<td>28.9043</td>
+<td>7.9946</td>
+<td>96.4862</td>
+<td>0.523498</td>
+<td>600.918</td>
+<td>212.031</td>
+<td>181.823</td>
+<td>1.40664</td>
+<td>334.02</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">22</td>
+<td>27.3553</td>
+<td>12.5756</td>
+<td>94.3322</td>
+<td>0.70286</td>
+<td>760.99</td>
+<td>216.232</td>
+<td>181.453</td>
+<td>1.74922</td>
+<td>301.383</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">23</td>
+<td>24.5809</td>
+<td>12.131</td>
+<td>95.0902</td>
+<td>0.417536</td>
+<td>763.366</td>
+<td>241.324</td>
+<td>219.377</td>
+<td>1.52055</td>
+<td>420.465</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">24</td>
+<td>18.7789</td>
+<td>9.31683</td>
+<td>94.9901</td>
+<td>0.601122</td>
+<td>702.448</td>
+<td>234.173</td>
+<td>228.868</td>
+<td>0.369197</td>
+<td>122.123</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25</td>
+<td>20.5369</td>
+<td>9.24857</td>
+<td>93.0902</td>
+<td>0.598746</td>
+<td>636.886</td>
+<td>257.476</td>
+<td>241.159</td>
+<td>0.80325</td>
+<td>173.431</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">26</td>
+<td>28.7855</td>
+<td>17.1449</td>
+<td>97.9329</td>
+<td>0.955446</td>
+<td>494.257</td>
+<td>259.106</td>
+<td>166.022</td>
+<td>1.26655</td>
+<td>26.4166</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">27</td>
+<td>27.8108</td>
+<td>16.8953</td>
+<td>91.6469</td>
+<td>0.773091</td>
+<td>850.693</td>
+<td>211.641</td>
+<td>167.842</td>
+<td>0.705151</td>
+<td>214.35</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">28</td>
+<td>32.3828</td>
+<td>6.9688</td>
+<td>92.4026</td>
+<td>0.823608</td>
+<td>682.574</td>
+<td>299.8</td>
+<td>236.049</td>
+<td>0.40337</td>
+<td>182.987</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">29</td>
+<td>22.7877</td>
+<td>14.6682</td>
+<td>90.1067</td>
+<td>0.118834</td>
+<td>753.105</td>
+<td>252.545</td>
+<td>210.746</td>
+<td>1.18188</td>
+<td>269.922</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">30</td>
+<td>38.3916</td>
+<td>1.54335</td>
+<td>93.0759</td>
+<td>0.132211</td>
+<td>724.698</td>
+<td>230.903</td>
+<td>181.053</td>
+<td>0.357806</td>
+<td>108.745</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+<td>⋮</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="benchmarking" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarking">Benchmarking</h2>
+<section id="plantecophys" class="level5">
+<h5 class="anchored" data-anchor-id="plantecophys">plantecophys</h5>
+<p>Preparing R to make the benchmark:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>R<span class="op">\</span><span class="st">"</span><span class="sc">\"\"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(!<span class="fu">require</span>(<span class="st">"plantecophys"</span>)){</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    install.<span class="fu">packages</span>(<span class="st">"plantecophys"</span>, repos <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(!<span class="fu">require</span>(<span class="st">"microbenchmark"</span>)){</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    install.<span class="fu">packages</span>(<span class="st">"microbenchmark"</span>, repos <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="op">\</span><span class="st">"</span><span class="sc">\"\"</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Make variables available to the R session</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="pp">@rput</span> set N microbenchmark_steps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Making the benchmark:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>R<span class="op">\</span><span class="st">"</span><span class="sc">\"\"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function call in a function that takes a list as input to limit DataFrame overhead</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>function_EB <span class="op">&lt;-</span> <span class="kw">function</span>(input) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">PhotosynEB</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        Tair <span class="op">=</span> input<span class="op">$</span>Tair, VPD <span class="op">=</span> input<span class="op">$</span>VPD, Wind <span class="op">=</span> input<span class="op">$</span>Wind,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        Wleaf <span class="op">=</span> input<span class="op">$</span>Wleaf,Ca <span class="op">=</span> input<span class="op">$</span>Ca,  StomatalRatio <span class="op">=</span> <span class="fl">1</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        LeafAbs <span class="op">=</span> input<span class="op">$</span>LeafAbs, gsmodel <span class="op">=</span> <span class="st">"BBOpti"</span>, g0 <span class="op">=</span> input<span class="op">$</span>g0, g1 <span class="op">=</span> input<span class="op">$</span>g1,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        alpha <span class="op">=</span> <span class="fl">0.24</span>, theta <span class="op">=</span> <span class="fl">0.7</span>, Jmax <span class="op">=</span> input<span class="op">$</span>Jmax,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        Vcmax <span class="op">=</span> input<span class="op">$</span>Vcmax, TPU <span class="op">=</span> input<span class="op">$</span>TPU, Rd <span class="op">=</span> input<span class="op">$</span>Rd,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        RH <span class="op">=</span> input<span class="op">$</span>RH, PPFD<span class="op">=</span>input<span class="op">$</span>PPFD, Patm <span class="op">=</span> input<span class="op">$</span>Patm</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>time_PE <span class="op">=</span> <span class="fu">c</span>()</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="kw">in</span> <span class="fu">seq_len</span>(N)){</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Put the inputs into a vector to limit dataframe overhead:</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    input <span class="op">=</span> <span class="fu">list</span>(</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        Tair <span class="op">=</span> set<span class="op">$</span>T[i], VPD <span class="op">=</span> set<span class="op">$</span>vpd[i], Wind <span class="op">=</span> set<span class="op">$</span>Wind[i], Wleaf <span class="op">=</span> set<span class="op">$</span>d[i],</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        Ca <span class="op">=</span> set<span class="op">$</span>Ca[i], LeafAbs <span class="op">=</span> set<span class="op">$</span>sky_fraction[i], g0 <span class="op">=</span> set<span class="op">$</span>g0[i], g1 <span class="op">=</span> set<span class="op">$</span>g1[i],</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        Jmax <span class="op">=</span> set<span class="op">$</span>JMaxRef[i], Vcmax <span class="op">=</span> set<span class="op">$</span>VcMaxRef[i], TPU <span class="op">=</span> set<span class="op">$</span>TPURef[i],</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        Rd <span class="op">=</span> set<span class="op">$</span>RdRef[i], RH <span class="op">=</span> set<span class="op">$</span>Rh[i]<span class="op">*</span><span class="fl">100</span>, PPFD<span class="op">=</span>set<span class="op">$</span>PPFD[i],Patm <span class="op">=</span> set<span class="op">$</span>P[i]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> <span class="fu">microbenchmark</span>(<span class="fu">function_EB</span>(input), times <span class="op">=</span> microbenchmark_steps)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    time_PE <span class="op">=</span> <span class="fu">append</span>(time_PE,m<span class="op">$</span>time <span class="op">*</span> <span class="fl">10e-9</span>) <span class="co"># transform in seconds</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="op">\</span><span class="st">"</span><span class="sc">\"\"</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="pp">@rget</span> time_PE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="leafgasexchange.jl" class="level5">
+<h5 class="anchored" data-anchor-id="leafgasexchange.jl">LeafGasExchange.jl</h5>
+<p>Note that we benchmark <code>LeafGasExchange.jl</code> with the <code>nounit</code> flag to compute a fair comparison with <code>PlantBiophysics.jl</code> in case computing units takes time (it shouldn’t much).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>time_LG <span class="op">=</span> []</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n_lg <span class="op">=</span> <span class="fu">fill</span>(<span class="fl">0</span>, N)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    config <span class="op">=</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">:</span>Weather <span class="op">=&gt;</span> (</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            PFD<span class="op">=</span>set.PPFD[i],</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            CO2<span class="op">=</span>set.Ca[i],</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            RH<span class="op">=</span>set.Rh[i] <span class="op">*</span> <span class="fl">100</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            T_air<span class="op">=</span>set.T[i],</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            wind<span class="op">=</span>set.Wind[i],</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            P_air<span class="op">=</span>set.P[i],</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            g0<span class="op">=</span>set.g0[i],</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            g1<span class="op">=</span>set.g1[i],</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            Vcmax<span class="op">=</span>set.VcMaxRef[i],</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            Jmax<span class="op">=</span>set.JMaxRef[i],</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>            Rd<span class="op">=</span>set.RdRef[i],</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>            TPU<span class="op">=</span>set.TPURef[i],</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    b_LG <span class="op">=</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@benchmark</span> <span class="fu">simulate</span>(<span class="op">$</span>ModelC3MD; config<span class="op">=$</span>config) evals <span class="op">=</span> microbenchmark_evals samples <span class="op">=</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>            microbenchmark_steps</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">append!</span>(time_LG, b_LG.times <span class="op">.*</span> <span class="fl">1e-9</span>) <span class="co"># transform in seconds</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    n_lg[i] <span class="op">=</span> <span class="fl">1</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="plantbiophysics.jl" class="level5">
+<h5 class="anchored" data-anchor-id="plantbiophysics.jl">PlantBiophysics.jl</h5>
+<p>Benchmarking <code>PlantBiophysics.jl</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>constants <span class="op">=</span> <span class="fu">Constants</span>()</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>time_PB <span class="op">=</span> []</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>N</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    leaf <span class="op">=</span> <span class="fu">ModelList</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        energy_balance<span class="op">=</span><span class="fu">Monteith</span>(),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        photosynthesis<span class="op">=</span><span class="fu">Fvcb</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            VcMaxRef<span class="op">=</span>set.VcMaxRef[i],</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            JMaxRef<span class="op">=</span>set.JMaxRef[i],</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            RdRef<span class="op">=</span>set.RdRef[i],</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            TPURef<span class="op">=</span>set.TPURef[i],</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        stomatal_conductance<span class="op">=</span><span class="fu">Medlyn</span>(set.g0[i], set.g1[i]),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        status<span class="op">=</span>(</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>            Rₛ<span class="op">=</span>set.Rs[i],</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            sky_fraction<span class="op">=</span>set.sky_fraction[i],</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>            PPFD<span class="op">=</span>set.PPFD[i],</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>            d<span class="op">=</span>set.d[i],</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    deps <span class="op">=</span> PlantSimEngine.<span class="fu">dep</span>(leaf)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    meteo <span class="op">=</span> <span class="fu">Atmosphere</span>(T<span class="op">=</span>set.T[i], Wind<span class="op">=</span>set.Wind[i], P<span class="op">=</span>set.P[i], Rh<span class="op">=</span>set.Rh[i], Cₐ<span class="op">=</span>set.Ca[i])</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    st <span class="op">=</span> PlantMeteo.<span class="fu">row_struct</span>(leaf.status[<span class="fl">1</span>])</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    b_PB <span class="op">=</span> <span class="pp">@benchmark</span> <span class="fu">run!</span>(<span class="op">$</span>leaf, <span class="op">$</span>deps, <span class="op">$</span>st, <span class="op">$</span>meteo, <span class="op">$</span>constants, <span class="cn">nothing</span>) evals <span class="op">=</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        microbenchmark_evals samples <span class="op">=</span> microbenchmark_steps</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">append!</span>(time_PB, b_PB.times <span class="op">.*</span> <span class="fl">1e-9</span>) <span class="co"># transform in seconds</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="comparison" class="level2">
+<h2 class="anchored" data-anchor-id="comparison">Comparison</h2>
+<section id="statistics" class="level5">
+<h5 class="anchored" data-anchor-id="statistics">Statistics</h5>
+<p>We compute here basic statistics, <em>i.e.</em> mean, median, min, max, standard deviation.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>statsPB <span class="op">=</span> <span class="fu">basic_stat</span>(time_PB)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>statsPE <span class="op">=</span> <span class="fu">basic_stat</span>(time_PE)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>statsLG <span class="op">=</span> <span class="fu">basic_stat</span>(time_LG)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>factorPE <span class="op">=</span> <span class="fu">mean</span>(time_PE) <span class="op">/</span> <span class="fu">mean</span>(time_PB)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>factorLG <span class="op">=</span> <span class="fu">mean</span>(time_LG) <span class="op">/</span> <span class="fu">mean</span>(time_PB)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Write overall timings:</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> <span class="fu">DataFrame</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    [<span class="fu">getfield</span>(j, i) for i <span class="kw">in</span> <span class="fu">fieldnames</span>(StatResults), j <span class="kw">in</span> [statsPB, statsPE, statsLG]],</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"PlantBiophysics"</span>, <span class="st">"plantecophys"</span>, <span class="st">"LeafGasExchange"</span>]</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">insertcols!</span>(df, <span class="fl">1</span>, <span class="op">:</span>Stat <span class="op">=&gt;</span> [<span class="fu">fieldnames</span>(StatResults)<span class="op">...</span>])</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>CSV.<span class="fu">write</span>(<span class="st">"benchmark.csv"</span>, df)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Write timing for each sample:</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>CSV.<span class="fu">write</span>(<span class="st">"benchmark_full.csv"</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">DataFrame</span>(</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"package"</span> <span class="op">=&gt;</span> <span class="fu">vcat</span>(</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>            [</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                <span class="fu">repeat</span>([i.first], <span class="fu">length</span>(i.second)) for i <span class="kw">in</span> [</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"PlantBiophysics"</span> <span class="op">=&gt;</span> time_PB,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"plantecophys"</span> <span class="op">=&gt;</span> time_PE,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"LeafGasExchange"</span> <span class="op">=&gt;</span> time_LG</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>                ]</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            ]<span class="op">...</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sample_time"</span> <span class="op">=&gt;</span> <span class="fu">vcat</span>(time_PB, time_PE, time_LG)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_res <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="bu">Downloads</span>.<span class="fu">download</span>(<span class="st">"https://raw.githubusercontent.com/VEZY/PlantBiophysics-paper/main/notebooks/performance/benchmark.csv"</span>), DataFrame)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="data-frame"><p>5 rows × 4 columns</p>
+<table class="data-frame table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Stat</th>
+<th data-quarto-table-cell-role="th">PlantBiophysics</th>
+<th data-quarto-table-cell-role="th">plantecophys</th>
+<th data-quarto-table-cell-role="th">LeafGasExchange</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th" title="String7">String7</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th data-quarto-table-cell-role="th" title="Float64">Float64</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>mean</td>
+<td>1.21661e-6</td>
+<td>0.0470207</td>
+<td>0.0226825</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>median</td>
+<td>1.083e-6</td>
+<td>0.04569</td>
+<td>0.0214673</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>stddev</td>
+<td>1.20394e-6</td>
+<td>0.00808695</td>
+<td>0.0047238</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>min</td>
+<td>5.41e-7</td>
+<td>0.0346401</td>
+<td>0.0192761</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>max</td>
+<td>2.5e-5</td>
+<td>0.172202</td>
+<td>0.12373</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="histogram-plotting" class="level5">
+<h5 class="anchored" data-anchor-id="histogram-plotting">Histogram plotting</h5>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">    StatResults(</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">        mean::AbstractFloat</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">        median::AbstractFloat</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">        stddev::AbstractFloat</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="st">        min::AbstractFloat</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="st">        max::AbstractFloat</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="st">Structure to hold basic statistics of model performance.</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> StatResults</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    mean<span class="op">::</span><span class="dt">AbstractFloat</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    median<span class="op">::</span><span class="dt">AbstractFloat</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    stddev<span class="op">::</span><span class="dt">AbstractFloat</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    min<span class="op">::</span><span class="dt">AbstractFloat</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    max<span class="op">::</span><span class="dt">AbstractFloat</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>StatResults</code></pre>
+</div>
+</div>
+<pre><code>**Base.show**
+
+    Base.show(io::IO, m::StatResults)
+    Base.show(io::IO, ::MIME"text/plain", m::StatResults)
+
+Add a show method for our `StatResults` type.</code></pre>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">    basic_stat(df)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">Compute basic statistics from the benchmarking</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">basic_stat</span>(df)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> <span class="fu">mean</span>(df)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    med <span class="op">=</span> <span class="fu">median</span>(df)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    std <span class="op">=</span> <span class="bu">Statistics</span>.<span class="fu">std</span>(df)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    min <span class="op">=</span> <span class="fu">findmin</span>(df)[<span class="fl">1</span>]</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    max <span class="op">=</span> <span class="fu">findmax</span>(df)[<span class="fl">1</span>]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">StatResults</span>(m, med, std, min, max)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>basic_stat</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_benchmark_Makie</span>(statsPB, statsPE, statsLG, time_PB, time_PE, time_LG)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    size_inches <span class="op">=</span> (<span class="fl">6.7</span>, <span class="fl">5</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    size_pt <span class="op">=</span> <span class="fl">72</span> <span class="op">.*</span> size_inches</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    bins <span class="op">=</span> <span class="fl">220</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    noto_sans <span class="op">=</span> <span class="fu">assetpath</span>(<span class="st">"fonts"</span>, <span class="st">"NotoSans-Regular.ttf"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> <span class="fu">Figure</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        backgroundcolor<span class="op">=</span><span class="fu">RGBf</span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        resolution<span class="op">=</span>size_pt,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        font<span class="op">=</span>noto_sans,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        fontsize<span class="op">=</span><span class="fl">10</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    ep <span class="op">=</span> <span class="fl">1e-9</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    extr <span class="op">=</span> <span class="fu">extrema</span>(<span class="fu">vcat</span>(time_PB, time_PE, time_LG))</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    interval <span class="op">=</span> (extr[<span class="fl">1</span>] <span class="op">*</span> <span class="fl">1e-1</span>, extr[<span class="fl">2</span>])</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    ga <span class="op">=</span> fig[<span class="fl">1</span>, <span class="fl">1</span>] <span class="op">=</span> <span class="fu">GridLayout</span>()</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    axa <span class="op">=</span> <span class="fu">Axis</span>(</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        ga[<span class="fl">1</span>, <span class="fl">1</span>],</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"(a) PlantBiophysics.jl"</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>        xscale<span class="op">=</span>log10,</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>        titlealign<span class="op">=:</span>left,</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>        titlesize<span class="op">=</span><span class="fl">10</span>,</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    stddevi <span class="op">=</span> <span class="fu">poly!</span>(</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>        axa,</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Rect</span>(<span class="fu">max</span>(ep, statsPB.mean <span class="op">-</span> statsPB.stddev), <span class="fl">0.0</span>, <span class="fl">2</span> <span class="op">*</span> statsPB.stddev, <span class="fl">1</span>),</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>(<span class="op">:</span>orange, <span class="fl">0.3</span>),</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>        yautolimits<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    moy <span class="op">=</span> <span class="fu">vlines!</span>(axa, statsPB.mean; color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist!</span>(axa, time_PB, normalization<span class="op">=:</span>probability, bins<span class="op">=</span>bins)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># h = axa.finallimits[].widths[2]</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">axislegend</span>(</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>        axa,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>        [stddevi, moy],</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"95% confidence interval"</span>, <span class="st">"Mean"</span>],</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">""</span>,</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>        position<span class="op">=:</span>rb,</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>        orientation<span class="op">=:</span>vertical,</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>        labelsize<span class="op">=</span><span class="fl">8</span>,</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>        framevisible<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlims!</span>(axa, interval)</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>    axb <span class="op">=</span> <span class="fu">Axis</span>(</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>        ga[<span class="fl">2</span>, <span class="fl">1</span>],</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"(b) plantecophys"</span>,</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>        xscale<span class="op">=</span>log10,</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>        ylabel<span class="op">=</span><span class="st">"Density"</span>,</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>        titlealign<span class="op">=:</span>left,</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>        titlesize<span class="op">=</span><span class="fl">10</span>,</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>    stddevi <span class="op">=</span> <span class="fu">poly!</span>(</span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>        axb,</span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Rect</span>(statsPE.mean <span class="op">-</span> statsPE.stddev, <span class="fl">0.0</span>, <span class="fl">2</span> <span class="op">*</span> statsPE.stddev, <span class="fl">1</span>),</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>(<span class="op">:</span>orange, <span class="fl">0.3</span>),</span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>        yautolimits<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vlines!</span>(axb, statsPE.mean; color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot)</span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist!</span>(axb, time_PE, normalization<span class="op">=:</span>probability, bins<span class="op">=</span>bins)</span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlims!</span>(axb, interval)</span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># axc = Axis(ga[3, 1], title="(c) LeafGasExchange.jl", yminorticks=IntervalsBetween(10),</span></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     xscale=log10, xminorticks=IntervalsBetween(10), yminorgridvisible=true, yminorticksvisible=true,</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     xminorgridvisible=true, xminorticksvisible=true, xlabel="Time (s)")</span></span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>    axc <span class="op">=</span> <span class="fu">Axis</span>(</span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>        ga[<span class="fl">3</span>, <span class="fl">1</span>],</span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"(c) LeafGasExchange.jl"</span>,</span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>        xscale<span class="op">=</span>log10,</span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>        xlabel<span class="op">=</span><span class="st">"Time (s)"</span>,</span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>        titlealign<span class="op">=:</span>left,</span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a>        titlesize<span class="op">=</span><span class="fl">10</span>,</span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a>    stddevi <span class="op">=</span> <span class="fu">poly!</span>(</span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a>        axc,</span>
+<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Rect</span>(statsLG.mean <span class="op">-</span> statsLG.stddev, <span class="fl">0.0</span>, <span class="fl">2</span> <span class="op">*</span> statsLG.stddev, <span class="fl">1</span>),</span>
+<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>(<span class="op">:</span>orange, <span class="fl">0.3</span>),</span>
+<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a>        yautolimits<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vlines!</span>(axc, statsLG.mean; color<span class="op">=:</span>red, linewidth<span class="op">=</span><span class="fl">3</span>, linestyle<span class="op">=:</span>dot)</span>
+<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hist!</span>(axc, time_LG, normalization<span class="op">=:</span>probability, bins<span class="op">=</span>bins)</span>
+<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlims!</span>(axc, interval)</span>
+<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowgap!</span>(ga, <span class="fl">7</span>)</span>
+<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidexdecorations!</span>(axa, grid<span class="op">=</span><span class="cn">false</span>)</span>
+<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hidexdecorations!</span>(axb, grid<span class="op">=</span><span class="cn">false</span>)</span>
+<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a>    fig</span>
+<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb21-90"><a href="#cb21-90" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>plot_benchmark_Makie (generic function with 1 method)</code></pre>
+</div>
+</div>
+<p>We here display the computational time histogram of each package on the same scale in order to compare them: <code>PlantBiophysics.jl</code> (a), <code>plantecophys</code> (b) and <code>LeafGasExchange.jl</code> (c). The y-axis represents the density (<em>i.e.</em> reaching 0.3 means that 30% of the computed times are in this bar). Orange zone represents the interval [mean - standard deviation; mean + standard deviation]. Red dashed line represents the mean. Note that the x-axis is logarithmic.</p>
+<pre class="{julia}"><code>fig = plot_benchmark_Makie(statsPB, statsPE, statsLG, time_PB, time_PE, time_LG)
+save("benchmark_each_time_steps.png", fig, px_per_unit=3)</code></pre>
+<p><img src="https://raw.githubusercontent.com/VEZY/PlantBiophysics-paper/main/notebooks/performance/benchmark_each_time_steps.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>:memo: <strong>Note</strong> <br> PlantBiophysics.jl is $(Int(round(df_res[1,:plantecophys] / df_res[1,:PlantBiophysics]))) times faster than plantecophys, and $(Int(round(df_res[1,:LeafGasExchange] / df_res[1,:PlantBiophysics]))) times faster than LeafGasExchange.jl.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>:warning: <strong>Warning</strong> <br> This is the plot from the latest commit on <a href="https://github.com/VEZY/PlantBiophysics-paper/" class="uri">https://github.com/VEZY/PlantBiophysics-paper/</a>. If you want to make your own benchmarking, run the script that was used to perform it, but careful, it takes a long time to perform!</p>
+</blockquote>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Copyright 2023, R. Vézy, S. Treillou (&amp; T. Arsouze for the website)</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

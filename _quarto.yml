@@ -4,18 +4,62 @@ project:
 
 website:
   title: "PlantBiophysics-paper for Quarto"
+  reader-mode: true
+  repo-url: https://github.com/thomasarsouze/PlantBiophysics-paper-Quarto
+  repo-actions: [edit, issue]
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+  sidebar: 
+    style: "docked"
+    search: true
+    header: 
+      - "### Support for PlantBiophysics article"
+      - " "
+      - "___Code for figure and tables reproduction___"
+      - " "
+      - "by R. Vezy & S. Treillou"
+    tools:
+      - icon: github
+        menu: 
+          - text: Source Code
+            url:  https://github.com/thomasarsouze/PlantBiophysics-paper-Quarto
+          - text: Report a Bug
+            url:  https://github.com/thomasarsouze/PlantBiophysics-paper-Quarto/issues
+    contents:
+      - installation.md
+      - text: "---"
+      - notebooks/basic_syntax.ipynb
+      - text: "---"
+      - section: "Evaluation"
+        contents: 
+          - text: "Global evaluation"
+            href: "notebooks/evaluation/Fig3/Fig3_PlantBiophysics_global_evaluation.ipynb"
+          - text: "Taylor diagram"
+            href: "notebooks/evaluation/Fig4/Fig4_PlantBiophysics_TaylorDiag.ipynb"
+          - text: "Dynamic evaluation"
+            href: "notebooks/evaluation/Fig6/Fig6_PlantBiophysics_day_evaluation.ipynb"
+      - text: "---"
+      - section: "Performance"
+        contents: 
+          - text: "Benchmark"
+            href: "notebooks/performance/Fig5_PlantBiophysics_performance.ipynb"
+      - text: "---"
+      - section: "Upscaling"
+        contents: "notebooks/upscaling/Fig7_PlantBiophysics_3D_coffee_tree.ipynb"
+  page-footer: "Copyright 2023, R. Vézy, S. Treillou (& T. Arsouze for the website)" 
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme:
+      light: [flatly, theme-light.scss]
+      dark: [darkly, theme-dark.scss]
     toc: true
-
+    css: styles.css
 
 execute:
   freeze: auto
+
+juyter: julia-1.8

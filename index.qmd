@@ -2,6 +2,6 @@
 title: "PlantBiophysics-paper-Quarto"
 ---
 
-This is a Quarto website.
+This is the repository for the Jupyter notebooks related to the scientific paper about [PlantBiophysics.jl](https://github.com/VEZY/PlantBiophysics.jl).
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This is only a Jupyter equivalent from the orginal Pluto website available [here](https://vezy.github.io/PlantBiophysics-paper/)

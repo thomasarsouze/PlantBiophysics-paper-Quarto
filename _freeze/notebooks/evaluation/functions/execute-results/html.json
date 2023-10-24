@@ -1,0 +1,11 @@
+{
+  "hash": "7c89a78248330fa885846c14b2787fec",
+  "result": {
+    "markdown": "::: {.cell execution_count=1}\n``` {.julia .cell-code}\n\"\"\"\n    RMSE(obs,sim)\nReturns the Root Mean Squared Error between observations `obs` and simulations `sim`.\nThe closer to 0 the better.\n\"\"\"\nfunction RMSE(obs, sim, digits=2)\n    return round(sqrt(sum((obs .- sim) .^ 2) / length(obs)), digits=digits)\nend\n\"\"\"\n    nRMSE(obs,sim)\nReturns the normalized Root Mean Squared Error between observations `obs` and simulations `sim`.\nThe closer to 0 the better.\n\"\"\"\nfunction nRMSE(obs, sim; digits=2)\n    return round(\n        sqrt(sum((obs .- sim) .^ 2) / length(obs)) / (findmax(obs)[1] - findmin(obs)[1]),\n        digits=digits,\n    )\nend\n\"\"\"\n    EF(obs,sim)\nReturns the Efficiency Factor between observations `obs` and simulations `sim` using NSE (Nash-Sutcliffe efficiency) model.\nMore information can be found at https://en.wikipedia.org/wiki/Nash%E2%80%93Sutcliffe_model_efficiency_coefficient.\nThe closer to 1 the better.\n\"\"\"\nfunction EF(obs, sim, digits=2)\n    SSres = sum((obs - sim) .^ 2)\n    SStot = sum((obs .- mean(obs)) .^ 2)\n    return round(1 - SSres / SStot, digits=digits)\nend\n\"\"\"\n\t    Bias(obs,sim)\n\tReturns the bias between observations `obs` and simulations `sim`.\n\tThe closer to 0 the better.\n\t\"\"\"\nfunction Bias(obs, sim, digits=4)\n    return round(mean(sim .- obs), digits=digits)\nend\n\"\"\"\n\tnBias(obs,sim; digits = 2)\nReturns the normalised bias (%) between observations `obs` and simulations `sim`.\nThe closer to 0 the better.\n\"\"\"\nfunction nBias(obs, sim; digits=2)\n    return round(mean((sim .- obs)) / (findmax(obs)[1] - findmin(obs)[1]), digits=digits)\nend\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\nnBias\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "functions_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
